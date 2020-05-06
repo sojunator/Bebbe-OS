@@ -15,19 +15,10 @@
 
 void kernel_main(void) 
 {
-	/* Initialize terminal interface */
 	terminal_initialize();
  	init_gdt();
-
-
 	init_idt();
-	/* Newline support is left as an exercise. */
 
-	int i = 5;
-	//i = i / 0;
-	i++;
-
-	terminal_writestring(&i);
 
  	for(;;) {
     	asm("hlt");

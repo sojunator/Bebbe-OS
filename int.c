@@ -2,74 +2,8 @@
 #include "mem.h"
 #include "tty.h"
 
-extern void _isr0();
-extern void _isr1();
-extern void _isr2();
-extern void _isr3();
-extern void _isr4();
-extern void _isr5();
-extern void _isr6();
-extern void _isr7();
-extern void _isr8();
-extern void _isr9();
-extern void _isr10();
-extern void _isr11();
-extern void _isr12();
-extern void _isr13();
-extern void _isr14();
-extern void _isr15();
-extern void _isr16();
-extern void _isr17();
-extern void _isr18();
-extern void _isr19();
-extern void _isr20();
-extern void _isr21();
-extern void _isr22();
-extern void _isr23();
-extern void _isr24();
-extern void _isr25();
-extern void _isr26();
-extern void _isr27();
-extern void _isr28();
-extern void _isr29();
-extern void _isr30();
-extern void _isr31();
-
-extern void _irq0();
-extern void _irq1();
-extern void _irq2();
-extern void _irq3();
-extern void _irq4();
-extern void _irq5();
-extern void _irq6();
-extern void _irq7();
-extern void _irq8();
-extern void _irq9();
-extern void _irq10();
-extern void _irq11();
-extern void _irq12();
-extern void _irq13();
-extern void _irq14();
-extern void _irq15();
-extern void _irq16();
-extern void _irq17();
-extern void _irq18();
-extern void _irq19();
-extern void _irq20();
-extern void _irq21();
-extern void _irq22();
-extern void _irq23();
-extern void _irq24();
-extern void _irq25();
-extern void _irq26();
-extern void _irq27();
-extern void _irq28();
-extern void _irq29();
-extern void _irq30();
-extern void _irq31();
 /* This array is actually an array of function pointers. We use
 *  this to handle custom IRQ handlers for a given IRQ */
-void *irq_routines[16];
 
 
 /* This installs a custom IRQ handler for the given IRQ */
@@ -204,7 +138,6 @@ void isr_handler(struct regs *r)
    i = i / 0;
    i++;
 
-   terminal_writestring("ISR handle triggered\n");
 	/* Is this a fault whose number is from 0 to 31? */
 	if (r->int_no < 32)
 	{
@@ -219,13 +152,8 @@ void isr_handler(struct regs *r)
 
 void irq_handler(struct regs *r)
 {
-
-   
 	/* This is a blank function pointer */
 	void (*handler)(struct regs *r);
-
-	if ((r->int_no - 32) == 0x0)
-		terminal_writestring("IRQ0\n");
 
 	/* Find out if we have a custom handler to run for this
 	*  IRQ, and then finally, run it */
@@ -246,6 +174,12 @@ void irq_handler(struct regs *r)
 	/* In either case, we need to send an EOI to the master
 	*  interrupt controller too */
 	outb(0x20, 0x20);
+}
+
+uint32_t tick = 0;
+void time_interrupt(struct regs *r)
+{
+ 	//terminal_writestring("Ropade po ratt handler");
 }
 
 void init_idt()
@@ -272,6 +206,8 @@ void init_idt()
 
 	irq_install();
 	isrs_install();
+
+	irq_install_handler(0, time_interrupt);
 
    __asm__ __volatile__("\n\
 	  movl %[tab], %%eax     \n\
