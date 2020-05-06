@@ -9,6 +9,8 @@ myiso.iso: isodir/boot/myos.bin isodir/boot/grub/grub.cfg
 	grub-mkrescue -o myos.iso isodir
 
 
+system.o: system.c
+	${KERNEL_CC} system.c -o system.o
 kernel.o: kernel.c 
 	${KERNEL_CC} kernel.c -o kernel.o
 
@@ -22,8 +24,14 @@ tty.o: tty.c tty.h
 boot.o: boot.s
 	i686-elf-as boot.s -o boot.o
 
-isodir/boot/myos.bin: kernel.o boot.o mem.o tty.o
-	i686-elf-gcc -T linker.ld -o isodir/boot/myos.bin -ffreestanding -O2 -nostdlib boot.o kernel.o mem.o tty.o -lgcc
+int.o: int.c
+	${KERNEL_CC} int.c  -o int.o
+
+interrupt.o: interrupt.s
+	i686-elf-as interrupt.s -o interrupt.o
+
+isodir/boot/myos.bin: kernel.o boot.o mem.o tty.o interrupt.o system.o int.o
+	i686-elf-gcc -T linker.ld -o isodir/boot/myos.bin -ffreestanding -O0 -nostdlib interrupt.o boot.o system.o int.o kernel.o mem.o tty.o -lgcc
 
 clean: 
 	rm isodir/boot/myiso.bin kernel.o boot.o myos.iso 

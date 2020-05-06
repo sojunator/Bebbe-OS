@@ -1,5 +1,6 @@
 #include "mem.h"
 #include "tty.h"
+#include "int.h"
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -19,6 +20,16 @@ void kernel_main(void)
  	init_gdt();
 
 
+	init_idt();
 	/* Newline support is left as an exercise. */
-	terminal_writestring("Hello, kernel World!\n");
+
+	int i = 5;
+	//i = i / 0;
+	i++;
+
+	terminal_writestring(&i);
+
+ 	for(;;) {
+    	asm("hlt");
+ 	}
 }

@@ -56,3 +56,4 @@ void load_gdt()
 
    terminal_writestring("Loaded GDT\n");
 }
+
