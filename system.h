@@ -10,5 +10,4 @@ extern int strlen(const char *str);
 extern unsigned char inb (unsigned short _port);
 extern void outb (unsigned short _port, unsigned char _data);
 
-
 #endif

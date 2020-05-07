@@ -140,6 +140,7 @@ void isrHandler(struct regs *r)
 		/* Display the description for the Exception that occurred.
 		*  In this tutorial, we will simply halt the system using an
 		*  infinite loop */
+
 		terminal_writestring(exception_messages[r->int_no]);
 		terminal_writestring(" Exception. System Halted!\n");
 		for (;;);

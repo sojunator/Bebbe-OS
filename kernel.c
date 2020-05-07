@@ -13,7 +13,7 @@
 #endif
  
 
-void kernel_main(void) 
+void kernel_main(uint32_t* multiboot) 
 {
 	terminal_initialize();
  	initGdt();

@@ -5,6 +5,8 @@
 gdt_entry_t gdt_entries[5];
 gdt_ptr_t   gdt_ptr;
  
+uint32_t * freeList;
+uint32_t numFree = 0;
 
 // Set the value of one GDT entry.
 
@@ -81,10 +83,44 @@ void enablePaging()
                        movl %%eax, %%cr0" : : : "%eax");
 }
 
+uint32_t allocateFrame()
+{
+   return freeList[numFree--];
+}
+
+void freeFrame(uint32_t frame)
+{
+   freeList[numFree++] = frame;
+} 
+
+
 void initPaging()
 {
-   uint32_t * page_dir;
+   uint32_t * page_dir = 0x0;
    setCR3(page_dir); 
+   /* Setup tables */
 
-   page_dir = getCR3();
+   freeList = (uint32_t*) (0x1000 * 32);
+
+   for (uint32_t i = 0; i < 32; i++)
+      freeFrame(0x0 + 0x1000 * i);
+
+   for (uint32_t i = 0; i < 16; i++)
+   {
+      page_dir[i] = allocateFrame + 0x3;
+   }
+
+   // one to one mapping kernel mode
+   for (uint32_t i = 0; i < 0x3E80000; i+= 4096)
+   {
+      uint32_t PT1 = (i >> 22);
+      uint32_t PT2 = (i >> 12) & 0x03FF;
+
+      uint32_t * pageTable = page_dir[PT1] & 0xFFFFF000;
+
+      //pageTable[PT2] = i + 0x3;
+   }
+   
+   //enablePaging();
+   terminal_writestring("Paging enabled\n");
 }
