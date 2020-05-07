@@ -34,4 +34,4 @@ isodir/boot/myos.bin: kernel.o boot.o mem.o tty.o interrupt.o system.o int.o
 	i686-elf-gcc -T linker.ld -o isodir/boot/myos.bin -ffreestanding -O0 -nostdlib interrupt.o boot.o system.o int.o kernel.o mem.o tty.o -lgcc
 
 clean: 
-	rm isodir/boot/myiso.bin kernel.o boot.o myos.iso 
+	rm isodir/boot/myiso.bin *.o myos.iso 
