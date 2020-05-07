@@ -134,10 +134,6 @@ void isr_handler(struct regs *r)
 	"Reserved"
    };
 
-   int i = 5;
-   i = i / 0;
-   i++;
-
 	/* Is this a fault whose number is from 0 to 31? */
 	if (r->int_no < 32)
 	{
