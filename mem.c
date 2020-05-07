@@ -8,7 +8,7 @@ gdt_ptr_t   gdt_ptr;
 
 // Set the value of one GDT entry.
 
-void gdt_set_gate(uint32_t num,uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
+void gdtSetGate(uint32_t num,uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
 {
    gdt_entries[num].base_low    = (base & 0xFFFF);
    gdt_entries[num].base_middle = (base >> 16) & 0xFF;
@@ -22,22 +22,26 @@ void gdt_set_gate(uint32_t num,uint32_t base, uint32_t limit, uint8_t access, ui
 } 
 
 
-void init_gdt()
+void initGdt()
 {
    gdt_ptr.limit = (sizeof(gdt_entry_t) * 5) - 1;
    gdt_ptr.base  = (uint32_t)&gdt_entries;
 
-   gdt_set_gate(0, 0, 0, 0, 0);                // Null segment
-   gdt_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF); // Code segment
-   gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF); // Data segment
-   gdt_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); // User mode code segment
-   gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
+   /*
+      This configures one massive segment 
+      from 0x0 to 0xFFFFFFF that both ring0 and ring3
+      can read and execute from
+   */
 
-   //gdt_flush((uint32_t)&gdt_ptr);
-   load_gdt();
+   gdtSetGate(0, 0, 0, 0, 0);                // Null segment
+   gdtSetGate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF); // Code segment
+   gdtSetGate(2, 0, 0xFFFFFFFF, 0x92, 0xCF); // Data segment
+   gdtSetGate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); // User mode code segment
+   gdtSetGate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
+   loadGdt();
 }
 
-void load_gdt()
+void loadGdt()
 {
    __asm__ __volatile__("                                    \n\
    cli                  # Make sure interrupts are disabled  \n\
@@ -70,7 +74,14 @@ uint32_t * getCR3()
    return page_dir;
 }
 
-void init_paging()
+void enablePaging()
+{
+ __asm__ __volatile__("movl %%cr0, %%eax       \n\
+                       orl $0x80000001, %%eax   \n\
+                       movl %%eax, %%cr0" : : : "%eax");
+}
+
+void initPaging()
 {
    uint32_t * page_dir;
    setCR3(page_dir); 

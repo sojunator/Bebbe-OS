@@ -2,7 +2,7 @@ KERNEL_CC := i686-elf-gcc -g -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 
 
 
-run: myiso.iso
+run: myiso.iso 
 	qemu-system-i386 -kernel isodir/boot/myos.bin
 
 myiso.iso: isodir/boot/myos.bin isodir/boot/grub/grub.cfg

@@ -103,19 +103,19 @@ void *irq_routines[16];
 
 
 
-void idt_set_gate(unsigned char num, unsigned long base, unsigned short sel, unsigned char flags);
+void idtSetGate(unsigned char num, unsigned long base, unsigned short sel, unsigned char flags);
 
-void init_idt();
+void initIdt();
 
-void irq_install();
+void irqInstall();
 
-void isrs_install();
+void isrsInstall();
 
-void isr_handler(struct regs *r);
+void isrHandler(struct regs *r);
 
-void irq_handler(struct regs *r);
+void irqHandler(struct regs *r);
 
 
-void time_interrupt(struct regs *r);
+void clockHandler(struct regs *r);
 
 #endif

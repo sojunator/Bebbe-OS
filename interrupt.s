@@ -357,7 +357,7 @@ _irq15:
 	push $32
 	jmp irq_common_stub
 
-.extern isr_handler
+.extern isrHandler
 
 
 isr_common_stub:
@@ -374,7 +374,7 @@ isr_common_stub:
 	mov %ax, %gs 
 	movl %esp, %eax   // Push us the stack
 	push %eax
-	call isr_handler
+	call isrHandler
 	pop %eax
 	pop %gs
 	pop %fs
@@ -386,7 +386,7 @@ isr_common_stub:
 	iret           // pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP!
 
 
-.extern irq_handler
+.extern irqHandler
 
 irq_common_stub:
 	pusha
@@ -401,7 +401,7 @@ irq_common_stub:
 	mov %ax, %gs 
 	movl %esp, %eax   // Push us the stack
 	push %eax
-	call irq_handler
+	call irqHandler
 	pop %eax
 	pop %gs
 	pop %fs
