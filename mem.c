@@ -57,3 +57,23 @@ void load_gdt()
    terminal_writestring("Loaded GDT\n");
 }
 
+void setCR3(uint32_t* page_dir)
+{
+   __asm__ __volatile__("movl %[dir], %%eax \n\
+                       movl %%eax, %%cr3" : : [dir] "r" (page_dir): "%eax");
+}
+
+uint32_t * getCR3()
+{
+   uint32_t * page_dir;
+   __asm__ __volatile__("movl %%cr3, %[addr]" : [addr] "=r" (page_dir) : :);
+   return page_dir;
+}
+
+void init_paging()
+{
+   uint32_t * page_dir;
+   setCR3(page_dir); 
+
+   page_dir = getCR3();
+}

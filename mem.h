@@ -18,6 +18,7 @@ struct gdt_ptr_struct
 }
  __attribute__((packed));
 
+
 typedef struct gdt_ptr_struct gdt_ptr_t; 
 typedef struct gdt_entry_struct gdt_entry_t; 
 
@@ -25,3 +26,6 @@ typedef struct gdt_entry_struct gdt_entry_t;
 void init_gdt();
 void gdt_set_gate(uint32_t,uint32_t, uint32_t, uint8_t, uint8_t);
 void load_gdt();
+void init_paging();
+void setCR3(uint32_t* page_dir);
+uint32_t* getCR3();
