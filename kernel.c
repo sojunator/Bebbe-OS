@@ -19,7 +19,7 @@ void kernel_main(uint32_t* multiboot)
  	initGdt();
 	initIdt();
 	initPaging();
-	printf("Testar igen %d ", 1234);
+	printf("Testar igen %d \n", 1234); 
  	for(;;) {
     	asm("hlt");
  	}

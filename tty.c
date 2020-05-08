@@ -75,26 +75,29 @@ void terminal_writestring(const char* data)
 }
 
 // I don't care about bases, so it's all decimal if you ask me
-void numberToAscii(uint32_t number, char * buffer)
+void numberToAscii(uint32_t number, char * buffer, uint8_t base)
 {
 	uint32_t i = 0;
 	while(number != 0)
 	{
 		// 0 is 48 in ascii
-		buffer[i++] = (number % 10) + 48;
-		number /= 10;
+		uint8_t val = (number % base);
+
+
+		// 55 is 10 away from A, so if val is 10, we get A
+		buffer[i++] = (val < 10 ? 48 : 55) + val;
+		number /= base;
 	}
-
-
+ 
 	
 	for (uint32_t j = 0; j < i / 2; j++)
 	{
+		// -1 is due to us not wanting the null byte
 		char tempswap = buffer[j];
 		buffer[j] = buffer[(i - 1) - j];
 		buffer[(i - 1) - j] = tempswap;
 	}
-	
-
+	 
 
 	buffer[i] = '\0';
 	// Buffer will list the number backwards
@@ -108,47 +111,46 @@ void printf(const char* fmt, ...)
 	va_list args;
 	va_start(args, fmt);
 
-	while(*fmt != '\0')
+	char c;
+	while( (c = *(fmt++)) != '\0')
 	{ 
-		if (*fmt != '%') // this does not support using % for characters
+		if (c == '%') 
 		{
-			terminal_putchar(*fmt);
+			c = *(fmt++);
+			char buffer[32]; // Just a temp buffer that can hold a large int
+
+
+			switch (c)
+			{
+				case 'd':
+				case 'i':
+					numberToAscii(va_arg(args, uint32_t), buffer, 10); 
+
+					terminal_writestring(buffer);	
+					break;
+
+				case '%':
+				case 'c':
+					// since char will be turned into a int
+					terminal_putchar( * (va_arg(args, char*)));
+					break;
+
+				case 's':
+					terminal_writestring(va_arg(args, char*));
+					break;
+
+				case 'x':
+					numberToAscii(va_arg(args, uint32_t), buffer, 16); 
+					terminal_writestring(buffer);	
+
+					break;
+			}
 		}
 		else
 		{
-
-			fmt++;
-			if (*fmt == 'd' || *fmt == 'i')
-			{
-				uint32_t number = va_arg(args, uint32_t);
-				char buffer[8]; // Just a temp buffer that can hold a large int
-				numberToAscii(number, buffer); // if buffer > 8 crash
-
-				// This might look dumb at first
-				// but I want to move the pointer, cant do that on a array
-				// this could be fixed by adding a function that just takes a char*
-				char * bufferPtr = buffer;
-
-				while(*bufferPtr != '\0')
-				{
-					terminal_putchar(*(bufferPtr++));
-				}
-			}
-			else if (*fmt == 's')
-			{ 
-				terminal_writestring(va_arg(args, char*));
-			}
-			else if (*fmt == 'c')
-			{
-				// since char will be turned into a int
-				terminal_putchar( * (va_arg(args, char*)));
-			}
+			terminal_putchar(c);
 		}
-		fmt++;
 	}
-
-
-
-
+	
 	va_end(args);
 }
