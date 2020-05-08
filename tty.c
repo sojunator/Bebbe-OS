@@ -84,6 +84,18 @@ void numberToAscii(uint32_t number, char * buffer)
 		buffer[i++] = (number % 10) + 48;
 		number /= 10;
 	}
+
+
+	
+	for (uint32_t j = 0; j < i / 2; j++)
+	{
+		char tempswap = buffer[j];
+		buffer[j] = buffer[(i - 1) - j];
+		buffer[(i - 1) - j] = tempswap;
+	}
+	
+
+
 	buffer[i] = '\0';
 	// Buffer will list the number backwards
 }
