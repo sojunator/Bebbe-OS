@@ -16,7 +16,32 @@ int strlen(const char *str)
 
 }
 
+void numberToAscii(uint32_t number, char * buffer, uint8_t base)
+{
+	uint32_t i = 0;
+	while(number != 0)
+	{
+		// 0 is 48 in ascii
+		uint8_t val = (number % base);
 
+
+		// 55 is 10 away from A, so if val is 10, we get A
+		buffer[i++] = (val < 10 ? 48 : 55) + val;
+		number /= base;
+	}
+ 
+	
+	for (uint32_t j = 0; j < i / 2; j++)
+	{
+		// -1 is due to us not wanting the null byte
+		char tempswap = buffer[j];
+		buffer[j] = buffer[(i - 1) - j];
+		buffer[(i - 1) - j] = tempswap;
+	}
+	 
+
+	buffer[i] = '\0';
+}
 
 unsigned char *memcpy(unsigned char *dest, const unsigned char *src, int count)
 {

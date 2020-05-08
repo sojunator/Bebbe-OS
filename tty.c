@@ -43,12 +43,18 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 {
 	const size_t index = y * VGA_WIDTH + x;
 	terminal_buffer[index] = vga_entry(c, color);
+ 
+	outb(0x3f8,c); 
+ 
 }
  
 void terminal_putchar(char c) 
 {
 	if (c == '\n')
-	{
+	{ 
+		// We need to print this for the logs
+		outb(0x3f8,c);
+ 
 		terminal_column = 0;
 		++terminal_row;
 		return;
@@ -74,37 +80,6 @@ void terminal_writestring(const char* data)
 	terminal_write(data, strlen(data));
 }
 
-// I don't care about bases, so it's all decimal if you ask me
-void numberToAscii(uint32_t number, char * buffer, uint8_t base)
-{
-	uint32_t i = 0;
-	while(number != 0)
-	{
-		// 0 is 48 in ascii
-		uint8_t val = (number % base);
-
-
-		// 55 is 10 away from A, so if val is 10, we get A
-		buffer[i++] = (val < 10 ? 48 : 55) + val;
-		number /= base;
-	}
- 
-	
-	for (uint32_t j = 0; j < i / 2; j++)
-	{
-		// -1 is due to us not wanting the null byte
-		char tempswap = buffer[j];
-		buffer[j] = buffer[(i - 1) - j];
-		buffer[(i - 1) - j] = tempswap;
-	}
-	 
-
-	buffer[i] = '\0';
-	// Buffer will list the number backwards
-}
-
-
-
 
 void printf(const char* fmt, ...)
 {
@@ -125,20 +100,20 @@ void printf(const char* fmt, ...)
 				case 'd':
 				case 'i':
 					numberToAscii(va_arg(args, uint32_t), buffer, 10); 
-
 					terminal_writestring(buffer);	
+
 					break;
 
 				case '%':
 				case 'c':
 					// since char will be turned into a int
 					terminal_putchar( * (va_arg(args, char*)));
-					break;
 
+					break;
 				case 's':
 					terminal_writestring(va_arg(args, char*));
-					break;
 
+					break;
 				case 'x':
 					numberToAscii(va_arg(args, uint32_t), buffer, 16); 
 					terminal_writestring(buffer);	

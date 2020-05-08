@@ -1,6 +1,7 @@
 #include "mem.h"
 #include "tty.h"
 #include "int.h"
+#include "serial.h"
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -15,11 +16,14 @@
 
 void kernel_main(uint32_t* multiboot) 
 {
+	initSerial();
 	terminal_initialize();
  	initGdt();
 	initIdt();
 	initPaging();
+ 
 	printf("Testar igen %d \n", 1234); 
+ 
  	for(;;) {
     	asm("hlt");
  	}
