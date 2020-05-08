@@ -35,17 +35,17 @@ uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg);
 uint16_t vga_entry(unsigned char uc, uint8_t color); 
  
 
-void terminal_initialize(void);
+void initTerminal(void);
 
-void terminal_setcolor(uint8_t color);
+void terminalSetcolor(uint8_t color);
 
-void terminal_putentryat(char c, uint8_t color, size_t x, size_t y);
+void terminalPutentryat(char c, uint8_t color, size_t x, size_t y);
 
-void terminal_putchar(char c);
+void terminalPutchar(char c);
 
-void terminal_write(const char* data, size_t size);
+void terminalWrite(const char* data, size_t size);
 
-void terminal_writestring(const char* data);
+void terminalWritestring(const char* data);
 
 void printf(const char* fmt, ...);
 

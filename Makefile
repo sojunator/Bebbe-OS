@@ -4,6 +4,7 @@ KERNEL_CC := i686-elf-gcc -g -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 
 run: myiso.iso 
 	qemu-system-i386 -kernel isodir/boot/myos.bin -serial file:serial.log
+	cat serial.log
 
 myiso.iso: isodir/boot/myos.bin isodir/boot/grub/grub.cfg
 	grub-mkrescue -o myos.iso isodir

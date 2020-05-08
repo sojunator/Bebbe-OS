@@ -14,16 +14,23 @@
 #endif
  
 
+extern uint32_t * freeList;
+
+
 void kernel_main(uint32_t* multiboot) 
 {
 	initSerial();
-	terminal_initialize();
+	initTerminal();
  	initGdt();
 	initIdt();
-	initPaging();
- 
-	printf("Testar igen %d \n", 1234); 
- 
+	initPaging();  
+ 	uint32_t * pageTest = (uint32_t*)(0x3E80000 - 0x1000);
+
+ 	*pageTest = 45;
+
+
+
+
  	for(;;) {
     	asm("hlt");
  	}
