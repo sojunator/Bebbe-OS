@@ -24,7 +24,7 @@ void kernel_main(uint32_t* multiboot)
  	initGdt();
 	initIdt();
 	initPaging();  
- 	uint32_t * pageTest = (uint32_t*)(0x3E80000 - 0x1000);
+ 	uint32_t * pageTest = (uint32_t*)(0x3E80000 + 0x1000);
 
  	*pageTest = 45;
 

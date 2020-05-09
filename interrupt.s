@@ -36,192 +36,159 @@
 
 //  0: Divide By Zero Exception
 _isr0:
-	cli
 	push $0   // A normal ISR stub that pops a dummy error code to keep a             
 	push $0   // uniform stack frame
 	jmp isr_common_stub
 
 //  1: Debug Exception
 _isr1:
-
-	cli
 	push $0
 	push $1
 	jmp isr_common_stub
 
 
 _isr2:
-	cli
 	push $0
-	push $1
+	push $2
 	jmp isr_common_stub   
 
 _isr3:
-	cli
 	push $0
-	push $1
+	push $3
 	jmp isr_common_stub   
 
 _isr4:
-	cli
 	push $0
-	push $1
+	push $4
 	jmp isr_common_stub   
 
 _isr5:
-	cli
 	push $0
-	push $1
+	push $5
 	jmp isr_common_stub   
 
 _isr6:
-	cli
 	push $0
-	push $1
+	push $6
 	jmp isr_common_stub   
 
 _isr7:
-	cli
 	push $0
-	push $1
+	push $7
 	jmp isr_common_stub   
 
 _isr8:
-	cli
 	push $8      
 	jmp isr_common_stub
 
 _isr9:
-	cli
 	push $0
-	push $1
+	push $9
 	jmp isr_common_stub   
 
 _isr10:
-	cli
-	push $8  
+	push $10  
 	jmp isr_common_stub 
 
 _isr11:
-	cli
-	push $8  
+	push $11  
 	jmp isr_common_stub   
 
 _isr12:
-	cli
-	push $8  
+	push $12 
 	jmp isr_common_stub 
 
 _isr13:
-	cli
-	push $8  
+	push $13  
 	jmp isr_common_stub 
 
 _isr14:
-	cli
-	push $8  
+	push $14  
 	jmp isr_common_stub  
 
 _isr15:
-	cli
 	push $0
-	push $1
+	push $15
 	jmp isr_common_stub   
 
 _isr16:
-	cli
 	push $0
-	push $1
+	push $16
 	jmp isr_common_stub   
 
 _isr17:
-	cli
 	push $0
-	push $1
+	push $17
 	jmp isr_common_stub   
 
 _isr18:
-	cli
 	push $0
-	push $1
+	push $18
 	jmp isr_common_stub  
 
 _isr19:
-	cli
 	push $0
-	push $1
+	push $19
 	jmp isr_common_stub 
 
 _isr20:
-	cli
 	push $0
-	push $1
+	push $20
 	jmp isr_common_stub  
 
 _isr21:
-	cli
 	push $0
-	push $1
+	push $21
 	jmp isr_common_stub  
 
 _isr22:
-	cli
 	push $0
-	push $1
+	push $22
 	jmp isr_common_stub   
 
 _isr23:
-	cli
 	push $0
-	push $1
+	push $23
 	jmp isr_common_stub   
 
 _isr24:
-	cli
 	push $0
-	push $1
+	push $24
 	jmp isr_common_stub  
 
 _isr25:
-	cli
 	push $0
-	push $1
+	push $25
 	jmp isr_common_stub   
 
 _isr26:
-	cli
 	push $0
-	push $1
+	push $26
 	jmp isr_common_stub  
 
 _isr27:
-	cli
 	push $0
-	push $1
+	push $27
 	jmp isr_common_stub   
 
 _isr28:
-	cli
 	push $0
-	push $1
+	push $28
 	jmp isr_common_stub   
 
 _isr29:
-	cli
 	push $0
-	push $1
+	push $29
 	jmp isr_common_stub   
 
 _isr30:
-	cli
 	push $0
-	push $1
+	push $30
 	jmp isr_common_stub   
 
 _isr31:
-	cli
 	push $0
-	push $1
+	push $31
 	jmp isr_common_stub   
 
 
@@ -261,100 +228,84 @@ _isr31:
 
 
 _irq0:
-	cli
 	push $0    
 	push $32
 	jmp irq_common_stub
 
 _irq1:
-	cli
 	push $0    
-	push $32
+	push $33
 	jmp irq_common_stub
 
 _irq2:
-	cli
 	push $0    
-	push $32
+	push $34
 	jmp irq_common_stub
 
 _irq3:
-	cli
 	push $0    
-	push $32
+	push $35
 	jmp irq_common_stub
 
 
 _irq4:
-	cli
 	push $0    
-	push $32
+	push $36
 	jmp irq_common_stub
 
 _irq5:
-	cli
 	push $0    
-	push $32
+	push $37
 	jmp irq_common_stub
 
 _irq6:
-	cli
 	push $0    
-	push $32
+	push $38
 	jmp irq_common_stub
 
 _irq7:
-	cli
 	push $0    
-	push $32
+	push $39
 	jmp irq_common_stub
 
 _irq8:
-	cli
 	push $0    
-	push $32
+	push $40
 	jmp irq_common_stub
 
 _irq9:
-	cli
 	push $0    
-	push $32
+	push $41
 	jmp irq_common_stub
 
 _irq10:
-	cli
 	push $0    
-	push $32
+	push $42
 	jmp irq_common_stub
 
 _irq11:
-	cli
 	push $0    
-	push $32
+	push $43
 	jmp irq_common_stub
 
 _irq12:
-	cli
 	push $0    
-	push $32
+	push $44
 	jmp irq_common_stub
 
 _irq13:
-	cli
 	push $0    
-	push $32
+	push $45
 	jmp irq_common_stub
 
 _irq14:
-	cli
 	push $0    
-	push $32
+	push $46
 	jmp irq_common_stub
 
 _irq15:
-	cli
 	push $0    
-	push $32
+	push $47
 	jmp irq_common_stub
 
 .extern isrHandler
@@ -382,7 +333,6 @@ isr_common_stub:
 	pop %ds
 	popa
 	addl $8, %esp     // Cleans up the pushed error code and pushed ISR number
-	sti
 	iret           // pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP!
 
 
@@ -409,5 +359,4 @@ irq_common_stub:
 	pop %ds
 	popa
 	addl $8, %esp     // Cleans up the pushed error code and pushed ISR number
-	sti
 	iret           // pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP!

@@ -141,9 +141,9 @@ void isrHandler(struct regs *r)
 		*  In this tutorial, we will simply halt the system using an
 		*  infinite loop */
 
-		printf(exception_messages[r->int_no]);
+		printf(exception_messages[r->err_code]);
 		printf(" Exception. System Halted!\n");
-		for (;;);
+
 	}
 }
 
@@ -154,6 +154,7 @@ void irqHandler(struct regs *r)
 
 	/* Find out if we have a custom handler to run for this
 	*  IRQ, and then finally, run it */
+
 	handler = irq_routines[r->int_no - 32];
 	if (handler)
 	{
