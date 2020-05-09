@@ -2,12 +2,12 @@ KERNEL_CC := i686-elf-gcc -g -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 
 
 
-run: myiso.iso 
-	qemu-system-i386 -kernel isodir/boot/myos.bin -serial file:serial.log
+run: Bebbe.iso 
+	qemu-system-i386 -kernel isodir/boot/Bebbe.bin -serial file:serial.log
 	cat serial.log
 
-myiso.iso: isodir/boot/myos.bin isodir/boot/grub/grub.cfg
-	grub-mkrescue -o myos.iso isodir
+Bebbe.iso: isodir/boot/Bebbe.bin isodir/boot/grub/grub.cfg
+	grub-mkrescue -o Bebbe.iso isodir
 
 
 system.o: system.c
@@ -34,8 +34,8 @@ serial.o: serial.c
 interrupt.o: interrupt.s
 	i686-elf-as interrupt.s -o interrupt.o
 
-isodir/boot/myos.bin: kernel.o boot.o mem.o tty.o interrupt.o system.o int.o serial.o
-	i686-elf-gcc -T linker.ld -o isodir/boot/myos.bin -ffreestanding -O0 -nostdlib serial.o interrupt.o boot.o system.o int.o kernel.o mem.o tty.o -lgcc
+isodir/boot/Bebbe.bin: kernel.o boot.o mem.o tty.o interrupt.o system.o int.o serial.o
+	i686-elf-gcc -T linker.ld -o isodir/boot/Bebbe.bin -ffreestanding -O0 -nostdlib serial.o interrupt.o boot.o system.o int.o kernel.o mem.o tty.o -lgcc
 
 clean: 
-	rm isodir/boot/myiso.bin *.o myos.iso serial.log
+	rm isodir/boot/Bebbe.bin *.o Bebbe.iso serial.log
