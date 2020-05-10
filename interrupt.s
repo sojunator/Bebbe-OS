@@ -34,6 +34,7 @@
 .global _isr31
 
 
+
 //  0: Divide By Zero Exception
 _isr0:
 	push $0   // A normal ISR stub that pops a dummy error code to keep a             
@@ -310,10 +311,24 @@ _irq15:
 
 .extern isrHandler
 
+/*
+	SS
+	ESP
+	EFLAGS
+	CS
+	EIP
+	Error code
+	Gate number
+	Pusha
+	ds
+	es
+	fs
+	gs
+	esp <- 
+*/
 
-isr_common_stub:
-	push $0   // A normal ISR stub that pops a dummy error code to keep a             
-	pusha
+isr_common_stub:          
+	pushal
 	push %ds
 	push %es
 	push %fs
@@ -339,7 +354,7 @@ isr_common_stub:
 .extern irqHandler
 
 irq_common_stub:
-	pusha
+	pushal
 	push %ds
 	push %es
 	push %fs

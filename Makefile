@@ -1,7 +1,5 @@
 KERNEL_CC := i686-elf-gcc -g -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 
-
-
 run: Bebbe.iso 
 	qemu-system-i386 -kernel isodir/boot/Bebbe.bin -serial file:serial.log
 	cat serial.log

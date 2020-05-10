@@ -76,6 +76,13 @@ uint32_t * getCR3()
    return page_dir;
 }
 
+uint32_t * getCR2()
+{
+   uint32_t * address;
+   __asm__ __volatile__("movl %%cr2, %[addr]" : [addr] "=r" (address) : :);
+   return address;
+}
+
 void enablePaging()
 {
  __asm__ __volatile__("movl %%cr0, %%eax       \n\

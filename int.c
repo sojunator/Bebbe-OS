@@ -141,8 +141,11 @@ void isrHandler(struct regs *r)
 		*  In this tutorial, we will simply halt the system using an
 		*  infinite loop */
 
-		printf(exception_messages[r->err_code]);
-		printf(" Exception. System Halted!\n");
+		printf("0x%x \n", (uint32_t)r->err_code);
+		printf("ADDR: 0x%x\n", getCR2());
+		printf(exception_messages[r->int_no]);
+
+		printf("Exception. System Halted!\n");
 
 	}
 }
