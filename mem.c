@@ -107,12 +107,13 @@ void initPaging()
    setCR3(page_dir); 
    /* Setup tables */
 
-
+   // First 16 pages are used for tables
    for (uint32_t i = 0; i < 16; i++)
    {
       page_dir[i] = 0x1000 * (i + 1) + 0x3;
    }
 
+   // Fill all 1024 * 16 entries with 1:1 mapping
    for (uint32_t i = 0; i < 0x3E80000; i+=4096)
    {
       uint32_t PT1 = (i >> 22);
@@ -120,7 +121,7 @@ void initPaging()
 
       uint32_t * table = (uint32_t*)(page_dir[PT1] & 0xFFFFF000);
 
-      table[PT2] = i + 0x3;
+      table[PT2] = i + 0x3; // 011 - kernel, read, present
 
    }
 
