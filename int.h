@@ -3,6 +3,8 @@
 
 #include "system.h"
 
+
+
 struct idt_entry
 {
     unsigned short base_lo;
@@ -34,6 +36,9 @@ struct idt_ptr
     esp <- */
 
 
+static struct idt_entry idt[256];
+static struct idt_ptr idtp;
+static void *irq_routines[16];
 
 struct regs
 {
@@ -110,9 +115,6 @@ extern void _irq29();
 extern void _irq30();
 extern void _irq31();
 
-struct idt_entry idt[256];
-struct idt_ptr idtp;
-void *irq_routines[16];
 
 
 
