@@ -99,6 +99,7 @@ void printf(const char* fmt, ...)
 			{
 				case 'd':
 				case 'i':
+				case 'u':
 					numberToAscii(va_arg(args, uint32_t), buffer, 10); 
 					terminalWritestring(buffer);	
 
